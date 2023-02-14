@@ -8,6 +8,7 @@ namespace Mission06.Models
 {
     public class Movie
     {
+        //Create an autoincrementing key for the database
         [Key]
         [Required]
         public int MovieID { get; set; }
@@ -26,11 +27,12 @@ namespace Mission06.Models
         [Required]
         public string Rating { get; set; }
 
+        //The rest are not required fields
         public bool Edited { get; set; }
 
         public string LentTo { get; set; }
 
-
+        //Create a range and verify the notes are within the range
         [Range(0,25,ErrorMessage ="Must be within 25 characters")]
         public string Notes { get; set; }
     }

@@ -8,7 +8,8 @@
 
 <h1>Please enter a new movie</h1>
 
-
+@*This is the form to input new movies
+*@
 <div>
     <form method="post">
         <label asp-for="Category">Category:</label>
@@ -23,6 +24,8 @@
         <label asp-for="Director">Director:</label>
         <input asp-for="Director" /> <br />
 
+
+        @*Create a dropdown for rating*@
         <label asp-for="Rating">Rating:</label>
         <select asp-for="Rating">
             <option value="G">G</option>
@@ -32,6 +35,7 @@
         </select>
         <br />
 
+        @*Create a boolean for Edited*@
         <label asp-for="Edited">Edited:</label>
         <select asp-for="Edited">
             <option value="True">Yes</option>

@@ -10,14 +10,14 @@
 
 </head>
 <body>
-
+    @*create the nav-bar for the different pages*@
     <nav>
         <a asp-controller="Home" asp-action="Index">Home</a>
         <a asp-controller="Home" asp-action="NewMovies">Enter a Movie</a>
         <a asp-controller="Home" asp-action="MyPodcast">My Podcasts</a>
     </nav>
 
-
+    @*dynamically upload the page content here*@
     <div>
         @RenderBody()
     </div>

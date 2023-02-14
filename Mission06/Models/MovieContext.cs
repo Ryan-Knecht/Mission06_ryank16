@@ -16,6 +16,8 @@ namespace Mission06.Models
 
         public DbSet<Movie> movies { get; set; }
 
+
+        //Seed the database with 3 movies
         protected override void OnModelCreating(ModelBuilder mb)
         {
             mb.Entity<Movie>().HasData(

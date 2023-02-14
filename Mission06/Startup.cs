@@ -53,6 +53,7 @@ namespace Mission06
 
             app.UseAuthorization();
 
+            //Use the lamda function for the endpoints
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

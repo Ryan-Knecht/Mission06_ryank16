@@ -26,17 +26,21 @@ namespace Mission06.Controllers
             return View();
         }
 
+        // This is to call the Podcast
         public IActionResult MyPodcast()
         {
             return View();
         }
 
+
+        //This is the get for NewMovies
         [HttpGet]
         public IActionResult NewMovies()
         {
             return View("NewMovies");
         }
 
+        //This is the post for NewMovies
         [HttpPost]
         public IActionResult NewMovies(Movie m)
         {
