@@ -12,8 +12,6 @@ namespace Mission06.Models
         [Key]
         [Required]
         public int MovieID { get; set; }
-        [Required]
-        public string Category { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -35,5 +33,12 @@ namespace Mission06.Models
         //Create a range and verify the notes are within the range
         [Range(0,25,ErrorMessage ="Must be within 25 characters")]
         public string Notes { get; set; }
+
+
+
+        //Build foreign key relation
+        [Required]
+        public int CategoryID { get; set; }
+        public Category Category { get; set; }
     }
 }

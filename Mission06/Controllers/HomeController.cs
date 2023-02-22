@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mission06.Models;
 using System;
@@ -11,14 +12,13 @@ namespace Mission06.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private MovieContext blahContext { get; set; }
+
+        private MovieContext daContext { get; set; }
 
         //Constructor
-        public HomeController(ILogger<HomeController> logger, MovieContext someName)
-        {
-            _logger = logger;
-            blahContext = someName;
+        public HomeController(MovieContext someName)
+        { 
+            daContext = someName;
         }
 
         public IActionResult Index()
@@ -37,33 +37,75 @@ namespace Mission06.Controllers
         [HttpGet]
         public IActionResult NewMovies()
         {
-            return View("NewMovies");
+            ViewBag.Categories = daContext.Categories.ToList();
+
+            return View();
         }
 
         //This is the post for NewMovies
         [HttpPost]
         public IActionResult NewMovies(Movie m)
         {
+            //if valid
             if (ModelState.IsValid)
             {
-                blahContext.Add(m);
-                blahContext.SaveChanges();
+                daContext.Add(m);
+                daContext.SaveChanges();
                 return View("Confirmation", m);
             }
+            //if invalid
             else
             {
                 return View(m);
             }
         }
-        public IActionResult Privacy()
+
+        public IActionResult MovieList ()
         {
-            return View();
+            var movies1 = daContext.movies
+                .Include(x => x.Category)
+                .ToList();
+
+            return View(movies1);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+
+        /*Create the Edit functions for get/post */
+        [HttpGet]
+        public IActionResult Edit(int movieid)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            ViewBag.Categories = daContext.Categories.ToList();
+
+            var movie = daContext.movies.Single(x => x.MovieID == movieid);
+
+            return View("NewMovies", movie);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Movie m)
+        {
+            daContext.Update(m);
+            daContext.SaveChanges();
+
+            return RedirectToAction("MovieList");
+        }
+
+
+        /*Create the delete functions*/
+        [HttpGet]
+        public IActionResult Delete(int movieid)
+        {
+            var movie = daContext.movies.Single(x => x.MovieID == movieid);
+            return View(movie);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(Movie m)
+        {
+            daContext.movies.Remove(m);
+            daContext.SaveChanges();
+
+            return RedirectToAction("MovieList");
         }
     }
 }

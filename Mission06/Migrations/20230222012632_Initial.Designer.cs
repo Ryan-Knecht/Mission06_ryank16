@@ -8,7 +8,7 @@ using Mission06.Models;
 namespace Mission06.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    [Migration("20230214014723_Initial")]
+    [Migration("20230222012632_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -17,15 +17,75 @@ namespace Mission06.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.22");
 
+            modelBuilder.Entity("Mission06.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = 1,
+                            CategoryName = "Adventure"
+                        },
+                        new
+                        {
+                            CategoryID = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryID = 3,
+                            CategoryName = "Action"
+                        },
+                        new
+                        {
+                            CategoryID = 4,
+                            CategoryName = "Horror"
+                        },
+                        new
+                        {
+                            CategoryID = 5,
+                            CategoryName = "Suspense"
+                        },
+                        new
+                        {
+                            CategoryID = 6,
+                            CategoryName = "Adventure"
+                        },
+                        new
+                        {
+                            CategoryID = 7,
+                            CategoryName = "Romance"
+                        },
+                        new
+                        {
+                            CategoryID = 8,
+                            CategoryName = "Documentary"
+                        },
+                        new
+                        {
+                            CategoryID = 9,
+                            CategoryName = "Fantasy"
+                        });
+                });
+
             modelBuilder.Entity("Mission06.Models.Movie", b =>
                 {
                     b.Property<int>("MovieID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
                         .IsRequired()
@@ -53,13 +113,15 @@ namespace Mission06.Migrations
 
                     b.HasKey("MovieID");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("movies");
 
                     b.HasData(
                         new
                         {
                             MovieID = 1,
-                            Category = "Adventure",
+                            CategoryID = 1,
                             Director = "Steven Spielberg",
                             Edited = false,
                             Rating = "PG",
@@ -69,7 +131,7 @@ namespace Mission06.Migrations
                         new
                         {
                             MovieID = 2,
-                            Category = "Comedy",
+                            CategoryID = 2,
                             Director = "Richard Linklater",
                             Edited = false,
                             Rating = "PG-13",
@@ -79,13 +141,22 @@ namespace Mission06.Migrations
                         new
                         {
                             MovieID = 3,
-                            Category = "Action",
+                            CategoryID = 3,
                             Director = "Edgar Wright",
                             Edited = false,
                             Rating = "PG-13",
                             Title = "Scott Pilgrim vs. the World",
                             Year = 2010
                         });
+                });
+
+            modelBuilder.Entity("Mission06.Models.Movie", b =>
+                {
+                    b.HasOne("Mission06.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

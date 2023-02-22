@@ -3,7 +3,7 @@
     ViewData["Title"] = "Enter a Movie";
 }
 
-@model Mission06.Models.Movie
+@model Movie
 
 
 <h1>Please enter a new movie</h1>
@@ -12,8 +12,19 @@
 *@
 <div>
     <form method="post">
-        <label asp-for="Category">Category:</label>
-        <input asp-for="Category" /> <br />
+
+        <div asp-validation-summary="All"></div>
+
+        @*Create Dropdown for category*@
+        <label asp-for="CategoryID">Category:</label>
+        <select asp-for="CategoryID">
+            <option value="">Select a Category</option>
+            @foreach (Category c in ViewBag.Categories)
+            {
+                <option value="@c.CategoryID">@c.CategoryName</option>
+            }
+        </select> <br />
+            
 
         <label asp-for="Title">Title:</label>
         <input asp-for="Title" /> <br />
